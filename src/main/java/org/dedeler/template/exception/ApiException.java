@@ -3,22 +3,22 @@ package org.dedeler.template.exception;
 import org.dedeler.template.context.MessageHelper;
 import org.dedeler.template.view.Result;
 
-public class GodfatherException extends RuntimeException {
+public class ApiException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private int errorCode;
+	private ErrorCode errorCode;
 	private String message;
 
-	public GodfatherException(int errorCode) {
+	public ApiException(ErrorCode errorCode) {
 		this.errorCode = errorCode;
-		this.message = MessageHelper.getMessage(errorCode);
+		this.message = MessageHelper.getMessage(errorCode.toString());
 	}
 
-	public int getErrorCode() {
+	public ErrorCode getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(int errorCode) {
+	public void setErrorCode(ErrorCode errorCode) {
 		this.errorCode = errorCode;
 	}
 

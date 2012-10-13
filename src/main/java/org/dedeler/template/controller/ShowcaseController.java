@@ -4,7 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.dedeler.template.exception.GodfatherException;
+import org.dedeler.template.exception.ApiException;
+import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
 import org.dedeler.template.service.UserService;
 import org.dedeler.template.view.Result;
@@ -61,7 +62,7 @@ public class ShowcaseController {
 
 		model.addAttribute("serverTime", formattedDate);
 
-		GodfatherException e = new GodfatherException(1000);
+		ApiException e = new ApiException(ErrorCode.UNKNOWN_ERROR);
 
 		return e.toResult();
 	}
