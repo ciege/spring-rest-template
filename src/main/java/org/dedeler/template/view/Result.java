@@ -16,6 +16,11 @@ public class Result<T> {
 	private boolean success;
 	private String message;
 
+	/**
+	 * null if success is false
+	 */
+	private T resultObject;
+
 	public Result(boolean success, T resultObject) {
 		this.success = success;
 		this.resultObject = resultObject;
@@ -25,11 +30,6 @@ public class Result<T> {
 		this.errorCode = errorCode;
 		this.success = success;
 	}
-
-	/**
-	 * null if success is false
-	 */
-	private T resultObject;
 
 	public ErrorCode getErrorCode() {
 		return errorCode;
@@ -55,6 +55,9 @@ public class Result<T> {
 		this.message = message;
 	}
 
+	/**
+	 * null if success is false
+	 */
 	public T getResultObject() {
 		return resultObject;
 	}
