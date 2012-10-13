@@ -1,5 +1,8 @@
 package org.dedeler.template.view;
 
+import java.util.Locale;
+
+import org.dedeler.template.context.MessageHelper;
 import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
 
@@ -21,9 +24,9 @@ public class Result {
 			this.success = success;
 		}
 		
-		public Builder(ApiException e){
+		public Builder(ApiException e, Locale locale){
 			this.success = false;
-			this.message = e.getMessage();
+			this.message = MessageHelper.getMessage(e.getErrorCode(), locale);
 			this.errorCode = e.getErrorCode();
 			this.resultObject = null;
 		}
