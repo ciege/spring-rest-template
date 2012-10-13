@@ -1,5 +1,7 @@
 package org.dedeler.template.view;
 
+import org.dedeler.template.exception.ErrorCode;
+
 /**
  * This class is a wrapper class for any object that is intended to be returned.
  * All controllers returns a Result object.
@@ -10,7 +12,7 @@ public class Result<T> {
 	/**
 	 * Only valid if success if false
 	 */
-	private int errorCode;
+	private ErrorCode errorCode;
 	private boolean success;
 	private String message;
 
@@ -19,7 +21,7 @@ public class Result<T> {
 		this.resultObject = resultObject;
 	}
 
-	public Result(boolean success, int errorCode) {
+	public Result(boolean success, ErrorCode errorCode) {
 		this.errorCode = errorCode;
 		this.success = success;
 	}
@@ -29,11 +31,11 @@ public class Result<T> {
 	 */
 	private T resultObject;
 
-	public int getErrorCode() {
+	public ErrorCode getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(int errorCode) {
+	public void setErrorCode(ErrorCode errorCode) {
 		this.errorCode = errorCode;
 	}
 
