@@ -1,7 +1,6 @@
 package org.dedeler.template.exception;
 
 import org.dedeler.template.context.MessageHelper;
-import org.dedeler.template.view.Result;
 
 public class ApiException extends RuntimeException {
 
