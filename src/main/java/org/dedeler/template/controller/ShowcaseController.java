@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/showcase")
-public class ShowcaseController {
+public class ShowcaseController extends AbstractController{
 
 	private static final Logger logger = LoggerFactory.getLogger(ShowcaseController.class);
 
@@ -65,7 +65,7 @@ public class ShowcaseController {
 
 		ApiException e = new ApiException(ErrorCode.UNKNOWN_ERROR);
 
-		Result result = (new Builder(e)).build();
+		Result result = (new Builder(e,locale)).build();
 		
 		return result;
 	}
