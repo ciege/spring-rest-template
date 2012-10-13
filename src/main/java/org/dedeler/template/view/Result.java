@@ -1,5 +1,6 @@
 package org.dedeler.template.view;
 
+import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
 
 /**
@@ -8,7 +9,62 @@ import org.dedeler.template.exception.ErrorCode;
  * 
  * @param <T>
  */
-public class Result<T> {
+public class Result {
+	
+	public static class Builder {
+		private ErrorCode errorCode;
+		private final boolean success;
+		private String message;
+		private Object resultObject;
+		
+		public Builder(boolean success){
+			this.success = success;
+		}
+		
+		public Builder(ApiException e){
+			this.success = false;
+			this.message = e.getMessage();
+			this.errorCode = e.getErrorCode();
+			this.resultObject = null;
+		}
+		
+		public Builder message(String message) {
+			this.message = message;
+			return this;
+		}
+
+		public Builder errorCode(ErrorCode errorCode) {
+			this.errorCode = errorCode;
+			return this;
+		}
+
+		public Builder resultObject(Object resultObject) {
+			this.resultObject = resultObject;
+			return this;
+		}
+		
+
+		public Result build() {
+			if (this.errorCode == null) {
+				if (success) {
+					this.errorCode = null;
+				}
+				else {
+					this.errorCode = ErrorCode.UNKNOWN_ERROR;
+				}
+			}
+			return new Result(this);
+		}
+		
+	}
+	
+	private Result(Builder resultBuilder) {
+		this.message = resultBuilder.message;
+		this.success = resultBuilder.success;
+		this.resultObject = resultBuilder.resultObject;
+		this.errorCode = resultBuilder.errorCode;
+	}
+	
 	/**
 	 * Only valid if success if false
 	 */
@@ -19,17 +75,7 @@ public class Result<T> {
 	/**
 	 * null if success is false
 	 */
-	private T resultObject;
-
-	public Result(boolean success, T resultObject) {
-		this.success = success;
-		this.resultObject = resultObject;
-	}
-
-	public Result(boolean success, ErrorCode errorCode) {
-		this.errorCode = errorCode;
-		this.success = success;
-	}
+	private Object resultObject;
 
 	public ErrorCode getErrorCode() {
 		return errorCode;
@@ -58,11 +104,11 @@ public class Result<T> {
 	/**
 	 * null if success is false
 	 */
-	public T getResultObject() {
+	public Object getResultObject() {
 		return resultObject;
 	}
 
-	public void setResultObject(T resultObject) {
+	public void setResultObject(Object resultObject) {
 		this.resultObject = resultObject;
 	}
 }

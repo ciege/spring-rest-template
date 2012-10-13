@@ -30,9 +30,4 @@ public class ApiException extends RuntimeException {
 		this.message = message;
 	}
 
-	public Result<Object> toResult() {
-		final Result<Object> result = new Result<Object>(false, this.getErrorCode());
-		result.setMessage(this.getMessage());
-		return result;
-	}
 }
