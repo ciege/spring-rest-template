@@ -1,9 +1,7 @@
 package org.dedeler.template.controller;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import org.dedeler.template.exception.GodfatherException;
