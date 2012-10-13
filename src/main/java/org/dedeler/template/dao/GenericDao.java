@@ -31,27 +31,21 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 		setSessionFactory(sessionFactory);
 	}
 
-	public Criteria createCriteria(
-			Class<? extends AbstractModel> persistentClass) {
-		Criteria sessionCriteria = getSession(false).createCriteria(
-				persistentClass);
+	public Criteria createCriteria(Class<? extends AbstractModel> persistentClass) {
+		Criteria sessionCriteria = getSession(false).createCriteria(persistentClass);
 		sessionCriteria.add(Restrictions.eq("deleted", false));
 
 		return sessionCriteria;
 	}
 
-	public Criteria createCriteria(
-			Class<? extends AbstractModel> persistentClass, int pageNumber,
-			int maxResults) {
+	public Criteria createCriteria(Class<? extends AbstractModel> persistentClass, int pageNumber, int maxResults) {
 		if (maxResults <= 0) {
 			maxResults = 10;
 		}
 
 		int firstResult = pageNumber * maxResults;
 
-		System.out.println("GenericDaoImpl#createCriteria: pageNumber: "
-				+ pageNumber + " maxResults: " + maxResults + " firstResult: "
-				+ firstResult);
+		System.out.println("GenericDaoImpl#createCriteria: pageNumber: " + pageNumber + " maxResults: " + maxResults + " firstResult: " + firstResult);
 
 		Criteria sessionCriteria = createCriteria(persistentClass);
 		sessionCriteria.setFirstResult(firstResult);
@@ -67,7 +61,8 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			t.setDeletedDate(Calendar.getInstance());
 			getSession(false).save(t);
 			return true;
-		} catch (DataAccessException e) {
+		}
+		catch (DataAccessException e) {
 			e.printStackTrace();
 			logger.error("DataAccessException", e);
 			return false;
@@ -76,17 +71,16 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 
 	@SuppressWarnings("unchecked")
 	public Collection<T> findAll(Class<T> persistentClass) {
-		return createCriteria(persistentClass).setResultTransformer(
-				CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+		return createCriteria(persistentClass).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 
 	}
 
 	@SuppressWarnings("unchecked")
 	public T findById(Class<T> persistentClass, final long id) {
 		try {
-			return (T) createCriteria(persistentClass).add(
-					Restrictions.eq("id", id)).uniqueResult();
-		} catch (Exception e) {
+			return (T) createCriteria(persistentClass).add(Restrictions.eq("id", id)).uniqueResult();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -96,7 +90,8 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 		try {
 			getSession(false).delete(t);
 			return true;
-		} catch (DataAccessException e) {
+		}
+		catch (DataAccessException e) {
 			e.printStackTrace();
 			logger.error("Unexpected error", e);
 			return false;
@@ -111,10 +106,12 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			t.setDeleted(false);
 			getSession(false).merge(t);
 			return true;
-		} catch (DataIntegrityViolationException e) {
+		}
+		catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			return false;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -128,10 +125,12 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			Long l = (Long) getSession(false).save(t);
 			// getSingleSession().beginTransaction().commit();
 			return l;
-		} catch (DataIntegrityViolationException e) {
+		}
+		catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			return -1;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return -1;
 		}
@@ -148,21 +147,21 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			getSession(false).update(t);
 			// getSingleSession().beginTransaction().commit();
 			return true;
-		} catch (DataIntegrityViolationException e) {
+		}
+		catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			return false;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
 
 	private void checkValidations(T t) throws ValidationException {
-		Set<ConstraintViolation<T>> constraintViolations = localValidator
-				.validate(t);
+		Set<ConstraintViolation<T>> constraintViolations = localValidator.validate(t);
 		if (constraintViolations.size() > 0) {
-			Iterator<ConstraintViolation<T>> it = constraintViolations
-					.iterator();
+			Iterator<ConstraintViolation<T>> it = constraintViolations.iterator();
 			ConstraintViolation<T> cv = null;
 			while (it.hasNext()) {
 				cv = it.next();
@@ -174,8 +173,7 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 				logger.error(cv.getLeafBean());
 
 			}
-			throw new ValidationException("Validation failed: "
-					+ cv.getMessage());
+			throw new ValidationException("Validation failed: " + cv.getMessage());
 		}
 	}
 
