@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name="GodfatherUser")
+@Table(name = "TemplateUser")
 public class User extends AbstractModel {
 	private static final long serialVersionUID = 1L;
 
