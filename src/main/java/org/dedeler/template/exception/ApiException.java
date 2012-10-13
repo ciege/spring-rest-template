@@ -1,5 +1,7 @@
 package org.dedeler.template.exception;
 
+import java.util.Locale;
+
 import org.dedeler.template.context.MessageHelper;
 
 public class ApiException extends RuntimeException {
@@ -10,7 +12,7 @@ public class ApiException extends RuntimeException {
 
 	public ApiException(ErrorCode errorCode) {
 		this.errorCode = errorCode;
-		this.message = MessageHelper.getMessage(errorCode.toString());
+		this.message = MessageHelper.getMessage(errorCode.toString(), Locale.ENGLISH);
 	}
 
 	public ErrorCode getErrorCode() {
