@@ -24,7 +24,7 @@
 	<!-- I18N -->
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="tr" /><!-- FIXME make parametric -->
+		<property name="defaultLocale" value="${app.defaultLocale}" />
 	</bean>
 
 	<mvc:interceptors>

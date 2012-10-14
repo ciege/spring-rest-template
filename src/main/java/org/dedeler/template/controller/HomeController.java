@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.dedeler.template.annotation.Logged;
-import org.dedeler.template.service.LoggingService.LogLevel;
+import org.dedeler.template.context.MessageHelper;
+import org.dedeler.template.exception.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Handles requests for the application home page.
  */
-@Logged(level = LogLevel.CONTROLLER)
 @Controller
-public class HomeController {
+public class HomeController extends AbstractController{
 
 	@Value("${test.message}")
 	private String test;
@@ -39,8 +38,10 @@ public class HomeController {
 		List<String> list = new ArrayList<String>();
 		list.add("hi");
 		list.add("slut");
+		list.add(MessageHelper.getMessage(ErrorCode.USER_NOT_ACTIVATED, locale));
 
 		return list;
+		
 	}
 
 }

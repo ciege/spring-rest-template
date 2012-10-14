@@ -10,6 +10,7 @@ import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
 import org.dedeler.template.service.UserService;
 import org.dedeler.template.view.Result;
+import org.dedeler.template.view.Result.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Logged
 @Controller
 @RequestMapping(value = "/showcase")
-public class ShowcaseController {
+public class ShowcaseController extends AbstractController{
 
 	private static final Logger logger = LoggerFactory.getLogger(ShowcaseController.class);
 
@@ -54,7 +55,7 @@ public class ShowcaseController {
 	 */
 	@RequestMapping(value = "/exception", method = RequestMethod.GET)
 	@ResponseBody
-	public Result<Object> home(Locale locale, Model model) {
+	public Result home(Locale locale, Model model) {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 
 		Date date = new Date();
@@ -66,7 +67,9 @@ public class ShowcaseController {
 
 		ApiException e = new ApiException(ErrorCode.UNKNOWN_ERROR);
 
-		return e.toResult();
+		Result result = (new Builder(e,locale)).build();
+		
+		return result;
 	}
 
 }
