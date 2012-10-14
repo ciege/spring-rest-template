@@ -59,17 +59,22 @@
 			<version>9.0-801.jdbc4</version>
 		</dependency>
 
-		<!-- Javax Valdation -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax.validation</groupId> -->
-<!-- 			<artifactId>validation-api</artifactId> -->
-<!-- 			<version>1.0.0.GA</version> -->
-<!-- 		</dependency> -->
-
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>
 

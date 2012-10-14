@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Handles requests for the application home page.
  */
+@Logged
 @Controller
 @RequestMapping(value = "/showcase")
 public class ShowcaseController {
