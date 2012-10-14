@@ -11,5 +11,7 @@ Servers/
 target/
 .settings/
 .build/
+.sonar/
 .classpath
 .project
+
