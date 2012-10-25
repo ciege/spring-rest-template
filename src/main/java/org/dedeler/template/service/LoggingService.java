@@ -13,11 +13,8 @@ public class LoggingService {
 		INFO("default"),
 		WARNING("default"),
 		ERROR("default"),
-		FATAL("default"),
-		CONTROLLER("controller"),
-		SERVICE("service"),
-		DAO("dao");
-
+		FATAL("default");
+		
 		private final String name;
 
 		private LogLevel(String name) {
@@ -29,51 +26,61 @@ public class LoggingService {
 		}
 	}
 
+	public enum LogType {
+		DEFAULT("default"),
+		CONTROLLER("controller"),
+		SERVICE("service"),
+		DAO("dao");
+
+		private final String name;
+
+		private LogType(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+	
 	private static final Logger defaultLogger = LoggerFactory.getLogger("default");
 	private static final Logger controllerLogger = LoggerFactory.getLogger("controller");
 	private static final Logger daoLogger = LoggerFactory.getLogger("dao");
 	private static final Logger serviceLogger = LoggerFactory.getLogger("service");
 
-	private Logger getLogger(LogLevel level) {
-		switch (level) {
-			case TRACE:
-			case DEBUG:
-			case INFO:
-			case ERROR:
-			case FATAL:
-
-				return defaultLogger;
+	private Logger getLogger(LogType type) {
+		switch (type) {
 			case CONTROLLER:
 				return controllerLogger;
 			case SERVICE:
 				return serviceLogger;
 			case DAO:
 				return daoLogger;
+			default:
+				return defaultLogger;
 		}
-		return null;
 	}
 
-	public void log(LogLevel level, String message) {
+	public void log(LogType type, LogLevel level, String message) {
 		// FIXME for default case, integrate logged-in user information
 
 		switch (level) {
 			case TRACE:
 			case DEBUG:
-				getLogger(level).debug(message);
+				getLogger(type).debug(message);
 				break;
-
 			case INFO:
-				getLogger(level).info(message);
+				getLogger(type).info(message);
 				break;
 			case WARNING:
-				getLogger(level).warn(message);
+				getLogger(type).warn(message);
 				break;
 			case ERROR:
 			case FATAL:
-				getLogger(level).error(message);
+				getLogger(type).error(message);
 				break;
 			default:
-				getLogger(level).info(message);
+				getLogger(type).info(message);
 				break;
 		}
 	}
