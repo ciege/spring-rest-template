@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Locale;
 
 import org.dedeler.template.annotation.Logged;
-import org.dedeler.template.context.MessageHelper;
-import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.service.LoggingService.LogLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +42,36 @@ public class HomeController extends AbstractController {
 		List<String> list = new ArrayList<String>();
 		list.add("hi");
 		list.add("slut");
-		list.add(MessageHelper.getMessage(ErrorCode.USER_NOT_ACTIVATED, locale));
 
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		list.add(authentication.getName());
+		for (GrantedAuthority auth: authentication.getAuthorities()) {
+			list.add(auth.getAuthority());
+		}
+		
 		return list;
 
 	}
+	
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> admin(Locale locale, Model model) {
+		logger.info("Welcome home! the client locale is " + locale.toString());
+		logger.info(test);
+
+		List<String> list = new ArrayList<String>();
+		list.add("hi");
+		list.add("slut");
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		list.add(authentication.getName());
+		for (GrantedAuthority auth: authentication.getAuthorities()) {
+			list.add(auth.getAuthority());
+		}
+		
+		return list;
+
+	}
+
 
 }

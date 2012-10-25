@@ -13,26 +13,28 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Repository
-public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
+public class GenericDao<T extends AbstractModel>{
 
 	@Autowired
 	private LocalValidatorFactoryBean localValidator;
-
+	
 	@Autowired
-	public void sessionFactoryRegisterer(SessionFactory sessionFactory) {
-		setSessionFactory(sessionFactory);
-	}
+	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private static final Logger logger = LoggerFactory.getLogger(GenericDao.class);
 
 	public Criteria createCriteria(Class<? extends AbstractModel> persistentClass) {
-		Criteria sessionCriteria = getSession(false).createCriteria(persistentClass);
+		Criteria sessionCriteria = sessionFactory.getCurrentSession().createCriteria(persistentClass);
 		sessionCriteria.add(Restrictions.eq("deleted", false));
 
 		return sessionCriteria;
@@ -59,7 +61,7 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			t.setDeleted(true);
 			t.setModificationDate(Calendar.getInstance());
 			t.setDeletedDate(Calendar.getInstance());
-			getSession(false).save(t);
+			sessionFactory.getCurrentSession().save(t);
 			return true;
 		}
 		catch (DataAccessException e) {
@@ -88,7 +90,7 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 
 	public boolean hardDelete(T t) {
 		try {
-			getSession(false).delete(t);
+			sessionFactory.getCurrentSession().delete(t);
 			return true;
 		}
 		catch (DataAccessException e) {
@@ -104,7 +106,7 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			checkValidations(t);
 			t.setModificationDate(Calendar.getInstance());
 			t.setDeleted(false);
-			getSession(false).merge(t);
+			sessionFactory.getCurrentSession().merge(t);
 			return true;
 		}
 		catch (DataIntegrityViolationException e) {
@@ -122,7 +124,7 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			checkValidations(t);
 			t.setModificationDate(Calendar.getInstance());
 			// getSingleSession().beginTransaction().begin();
-			Long l = (Long) getSession(false).save(t);
+			Long l = (Long) sessionFactory.getCurrentSession().save(t);
 			// getSingleSession().beginTransaction().commit();
 			return l;
 		}
@@ -144,7 +146,7 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 			t.setDeleted(false);
 			// getHibernateTemplate().setAllowCreate(false);
 			// getSingleSession().beginTransaction().begin();
-			getSession(false).update(t);
+			sessionFactory.getCurrentSession().update(t);
 			// getSingleSession().beginTransaction().commit();
 			return true;
 		}
@@ -168,9 +170,9 @@ public class GenericDao<T extends AbstractModel> extends HibernateDaoSupport {
 
 				logger.error(cv.getMessage());
 				logger.error(cv.toString());
-				logger.error(cv.getInvalidValue());
+				logger.error(cv.getInvalidValue().toString());
 				logger.error(cv.getMessageTemplate());
-				logger.error(cv.getLeafBean());
+//				logger.error(cv.getLeafBean()); //TODO: nekibuki
 
 			}
 			throw new ValidationException("Validation failed: " + cv.getMessage());
