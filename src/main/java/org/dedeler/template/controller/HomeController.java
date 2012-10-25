@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.context.MessageHelper;
 import org.dedeler.template.exception.ErrorCode;
-import org.dedeler.template.service.LoggingService.LogLevel;
+import org.dedeler.template.service.LoggingService.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,14 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Handles requests for the application home page.
  */
-@Logged(level = LogLevel.CONTROLLER)
+@Logged(type = LogType.CONTROLLER)
 @Controller
 public class HomeController extends AbstractController {
 
 	@Value("${test.message}")
 	private String test;
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(HomeController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.

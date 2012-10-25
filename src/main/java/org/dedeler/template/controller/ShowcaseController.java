@@ -8,6 +8,7 @@ import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
+import org.dedeler.template.service.LoggingService.LogType;
 import org.dedeler.template.service.UserService;
 import org.dedeler.template.view.Result;
 import org.dedeler.template.view.Result.Builder;
@@ -24,12 +25,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Handles requests for the application home page.
  */
-@Logged
+@Logged(type = LogType.CONTROLLER)
 @Controller
 @RequestMapping(value = "/showcase")
-public class ShowcaseController extends AbstractController{
+public class ShowcaseController extends AbstractController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ShowcaseController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(ShowcaseController.class);
 
 	@Autowired
 	private UserService userService;
@@ -59,7 +61,8 @@ public class ShowcaseController extends AbstractController{
 		logger.info("Welcome home! the client locale is " + locale.toString());
 
 		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
+				DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
 
@@ -67,8 +70,8 @@ public class ShowcaseController extends AbstractController{
 
 		ApiException e = new ApiException(ErrorCode.UNKNOWN_ERROR);
 
-		Result result = (new Builder(e,locale)).build();
-		
+		Result result = (new Builder(e, locale)).build();
+
 		return result;
 	}
 

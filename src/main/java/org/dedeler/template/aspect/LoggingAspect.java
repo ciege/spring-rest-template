@@ -6,8 +6,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.service.LoggingService;
 import org.dedeler.template.service.LoggingService.LogLevel;
+import org.dedeler.template.service.LoggingService.LogType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Aspect
@@ -25,37 +27,35 @@ public class LoggingAspect {
 	}
 
 	private Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+		
+		Logged logged = joinPoint.getTarget().getClass().getAnnotation(Logged.class);
 
 		final long endTime;
 		long startTime = 0;
 
-		before(joinPoint, LogLevel.DEBUG);
+		before(joinPoint, logged.type(), logged.level());
 		Object returnValue = null;
 		startTime = System.nanoTime();
 		returnValue = joinPoint.proceed();
 		endTime = System.nanoTime();
 		final long duration = (endTime - startTime) / 1000000;
-		after(joinPoint, returnValue, duration, LogLevel.DEBUG);
+		after(joinPoint, returnValue, duration, logged.type(), logged.level());
 		return returnValue;
 	}
 
-	private void before(JoinPoint joinPoint, LogLevel level) {
-
-		// if (joinPoint.getSignature().getDeclaringType().equals(LoggingService.class)) {
-		// return;
-		// }
+	private void before(JoinPoint joinPoint,LogType type, LogLevel level) {
 
 		final String fullyQualifiedMethodName = joinPoint.getSignature().getDeclaringType() + "#" + joinPoint.getSignature().getName();
 
 		if (joinPoint.getArgs() == null || joinPoint.getArgs().length == 0) {
-			loggingService.log(level, "Entering " + fullyQualifiedMethodName);
+			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName);
 		}
 		else {
-			loggingService.log(level, "Entering " + fullyQualifiedMethodName + " with arguments: [ " + extractArguments(joinPoint.getArgs()) + " ]");
+			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName + " with arguments: [ " + extractArguments(joinPoint.getArgs()) + " ]");
 		}
 	}
 
-	private void after(JoinPoint joinPoint, Object returnValue, long duration, LogLevel level) {
+	private void after(JoinPoint joinPoint, Object returnValue, long duration,LogType type, LogLevel level) {
 
 		// if (joinPoint.getSignature().getDeclaringType().equals(LoggingService.class)) {
 		// return;
@@ -71,7 +71,7 @@ public class LoggingAspect {
 			}
 		}
 
-		loggingService.log(level, "Returning " + fullyQualifiedMethodName + " in " + duration + "ms with return value: " + returnValueString.toString());
+		loggingService.log(type, level, "Returning " + fullyQualifiedMethodName + " in " + duration + "ms with return value: " + returnValueString.toString());
 	}
 
 	private String extractArguments(Object[] args) {
