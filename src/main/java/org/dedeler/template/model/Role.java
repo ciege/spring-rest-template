@@ -7,11 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "TemplateRole")
-public class Role extends AbstractModel implements GrantedAuthority{
+public class Role extends AbstractModel implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
-	
+
 	public String getName() {
 		return name;
 	}

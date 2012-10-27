@@ -30,8 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/showcase")
 public class ShowcaseController extends AbstractController {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ShowcaseController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShowcaseController.class);
 
 	@Autowired
 	private UserService userService;
@@ -61,8 +60,7 @@ public class ShowcaseController extends AbstractController {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 
 		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-				DateFormat.LONG, locale);
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
 

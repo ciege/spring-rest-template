@@ -13,6 +13,6 @@ import org.dedeler.template.service.LoggingService.LogType;
 public @interface Logged {
 
 	LogLevel level() default LogLevel.DEBUG;
-	
-	LogType type() ;
+
+	LogType type();
 }

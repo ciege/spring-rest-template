@@ -15,9 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageHelper {
 	private static MessageSource messageSource;
-	
-	private static String defaultLocale;	
-	
+
+	private static String defaultLocale;
 
 	static {
 		messageSource = ProjectContext.getMessageSource();
@@ -32,18 +31,19 @@ public class MessageHelper {
 	}
 
 	public static String getMessage(ErrorCode errorCode) {
-		return getMessage(errorCode,new Locale(defaultLocale));
+		return getMessage(errorCode, new Locale(defaultLocale));
 	}
 
 	public static String getMessage(ErrorCode errorCode, Locale locale) {
 		return messageSource.getMessage(errorCode.name(), null, "", locale);
 	}
-	
 
-	@Value("${app.defaultLocale}") //TODO remove ugly hack
-    private String privateName;
+	@Value("${app.defaultLocale}")
+	// TODO remove ugly hack
+	private String privateName;
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		defaultLocale = privateName;
 	}
 

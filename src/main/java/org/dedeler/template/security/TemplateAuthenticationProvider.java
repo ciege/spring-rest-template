@@ -18,29 +18,28 @@ public class TemplateAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	private UserService userService;
-	
-	
+
 	@Override
-	public Authentication authenticate(Authentication authentication)
-			throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
 		Object password = authentication.getCredentials();
 		try {
 			String hashedPassword = ESAPI.encryptor().hash((String) password, username);
 			User user = userService.findByUsername(username);
-			
-			if(user == null){
-				throw new BadCredentialsException("Username not found."); //TODO message
+
+			if (user == null) {
+				throw new BadCredentialsException("Username not found."); // TODO message
 			}
-			
-			if(!hashedPassword.equals(user.getPassword())){
-				throw new BadCredentialsException("Wrong password."); //TODO message
+
+			if (!hashedPassword.equals(user.getPassword())) {
+				throw new BadCredentialsException("Wrong password."); // TODO message
 			}
-			
+
 			Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 			return new UsernamePasswordAuthenticationToken(username, password, authorities);
 
-		} catch (EncryptionException e) {
+		}
+		catch (EncryptionException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -51,7 +50,5 @@ public class TemplateAuthenticationProvider implements AuthenticationProvider {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
-	
+
 }

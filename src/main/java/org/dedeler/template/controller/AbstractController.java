@@ -15,14 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AbstractController {
 
 	@ExceptionHandler(ApiException.class)
-	public @ResponseBody Result handleApiException(ApiException exception, Locale locale){
+	public @ResponseBody
+	Result handleApiException(ApiException exception, Locale locale) {
 		return (new Builder(exception, locale)).build();
 	}
-	
+
 	@ExceptionHandler(Exception.class)
-	public @ResponseBody Result handleException(Exception exception, Locale locale){
+	public @ResponseBody
+	Result handleException(Exception exception, Locale locale) {
 		ErrorCode errorCode = ErrorCode.UNKNOWN_ERROR;
 		return (new Builder(false)).message(MessageHelper.getMessage(errorCode, locale)).errorCode(errorCode).build();
 	}
-	
+
 }

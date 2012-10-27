@@ -22,14 +22,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Repository
-public class GenericDao<T extends AbstractModel>{
+public class GenericDao<T extends AbstractModel> {
 
 	@Autowired
 	private LocalValidatorFactoryBean localValidator;
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private static final Logger logger = LoggerFactory.getLogger(GenericDao.class);
 
@@ -47,7 +47,8 @@ public class GenericDao<T extends AbstractModel>{
 
 		int firstResult = pageNumber * maxResults;
 
-		System.out.println("GenericDaoImpl#createCriteria: pageNumber: " + pageNumber + " maxResults: " + maxResults + " firstResult: " + firstResult);
+		System.out
+				.println("GenericDaoImpl#createCriteria: pageNumber: " + pageNumber + " maxResults: " + maxResults + " firstResult: " + firstResult);
 
 		Criteria sessionCriteria = createCriteria(persistentClass);
 		sessionCriteria.setFirstResult(firstResult);
@@ -172,7 +173,7 @@ public class GenericDao<T extends AbstractModel>{
 				logger.error(cv.toString());
 				logger.error(cv.getInvalidValue().toString());
 				logger.error(cv.getMessageTemplate());
-//				logger.error(cv.getLeafBean()); //TODO: nekibuki
+				// logger.error(cv.getLeafBean()); //TODO: nekibuki
 
 			}
 			throw new ValidationException("Validation failed: " + cv.getMessage());

@@ -29,8 +29,7 @@ public class HomeController extends AbstractController {
 	@Value("${test.message}")
 	private String test;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -47,17 +46,17 @@ public class HomeController extends AbstractController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		list.add(authentication.getName());
-		for (GrantedAuthority auth: authentication.getAuthorities()) {
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
 			list.add(auth.getAuthority());
 		}
-		
+
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	@ResponseBody
-	@Secured({"ROLE_ADMIN"})
+	@Secured({ "ROLE_ADMIN" })
 	public List<String> admin(Locale locale, Model model) {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 		logger.info(test);
@@ -68,13 +67,12 @@ public class HomeController extends AbstractController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		list.add(authentication.getName());
-		for (GrantedAuthority auth: authentication.getAuthorities()) {
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
 			list.add(auth.getAuthority());
 		}
-		
+
 		return list;
 
 	}
-
 
 }

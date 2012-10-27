@@ -35,7 +35,7 @@ public class User extends AbstractModel implements UserDetails {
 
 	private String lastName;
 
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Role> authorities;
 
 	private boolean accountNonExpired = true;
@@ -130,6 +130,5 @@ public class User extends AbstractModel implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
 
 }
