@@ -19,13 +19,13 @@ public abstract class AbstractModel implements Serializable {
 
 	private boolean deleted;
 
-	private Calendar createDate;
+	private Calendar creationDate;
 	private Calendar modificationDate;
-	private Calendar deletedDate;
+	private Calendar deletionDate;
 
 	public AbstractModel() {
 		this.deleted = false;
-		this.createDate = Calendar.getInstance();
+		this.creationDate = Calendar.getInstance();
 	}
 
 	public boolean isDeleted() {
@@ -36,12 +36,12 @@ public abstract class AbstractModel implements Serializable {
 		this.deleted = deleted;
 	}
 
-	public Calendar getCreateDate() {
-		return createDate;
+	public Calendar getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreateDate(Calendar createDate) {
-		this.createDate = createDate;
+	public void setCreationDate(Calendar creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public Calendar getModificationDate() {
@@ -52,12 +52,12 @@ public abstract class AbstractModel implements Serializable {
 		this.modificationDate = modificationDate;
 	}
 
-	public Calendar getDeletedDate() {
-		return deletedDate;
+	public Calendar getDeletionDate() {
+		return deletionDate;
 	}
 
-	public void setDeletedDate(Calendar deletedDate) {
-		this.deletedDate = deletedDate;
+	public void setDeletionDate(Calendar deletionDate) {
+		this.deletionDate = deletionDate;
 	}
 
 	public long getOid() {
