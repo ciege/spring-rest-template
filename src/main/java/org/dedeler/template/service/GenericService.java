@@ -69,8 +69,7 @@ public abstract class GenericService<T extends AbstractModel> {
 	 * @return true, if successful
 	 * @throws DataCreationException
 	 */
-	public boolean update(T t)  {
+	public boolean update(T t) {
 		return dao.update(t);
 	}
 }
-

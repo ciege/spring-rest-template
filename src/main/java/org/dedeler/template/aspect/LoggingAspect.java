@@ -27,7 +27,7 @@ public class LoggingAspect {
 	}
 
 	private Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-		
+
 		Logged logged = joinPoint.getTarget().getClass().getAnnotation(Logged.class);
 
 		final long endTime;
@@ -43,7 +43,7 @@ public class LoggingAspect {
 		return returnValue;
 	}
 
-	private void before(JoinPoint joinPoint,LogType type, LogLevel level) {
+	private void before(JoinPoint joinPoint, LogType type, LogLevel level) {
 
 		final String fullyQualifiedMethodName = joinPoint.getSignature().getDeclaringType() + "#" + joinPoint.getSignature().getName();
 
@@ -51,11 +51,12 @@ public class LoggingAspect {
 			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName);
 		}
 		else {
-			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName + " with arguments: [ " + extractArguments(joinPoint.getArgs()) + " ]");
+			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName + " with arguments: [ " + extractArguments(joinPoint.getArgs())
+					+ " ]");
 		}
 	}
 
-	private void after(JoinPoint joinPoint, Object returnValue, long duration,LogType type, LogLevel level) {
+	private void after(JoinPoint joinPoint, Object returnValue, long duration, LogType type, LogLevel level) {
 
 		// if (joinPoint.getSignature().getDeclaringType().equals(LoggingService.class)) {
 		// return;
@@ -71,7 +72,8 @@ public class LoggingAspect {
 			}
 		}
 
-		loggingService.log(type, level, "Returning " + fullyQualifiedMethodName + " in " + duration + "ms with return value: " + returnValueString.toString());
+		loggingService.log(type, level,
+				"Returning " + fullyQualifiedMethodName + " in " + duration + "ms with return value: " + returnValueString.toString());
 	}
 
 	private String extractArguments(Object[] args) {

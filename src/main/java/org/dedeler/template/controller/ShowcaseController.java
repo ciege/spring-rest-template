@@ -30,8 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/showcase")
 public class ShowcaseController extends AbstractController {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ShowcaseController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShowcaseController.class);
 
 	@Autowired
 	private UserService userService;
@@ -40,8 +39,8 @@ public class ShowcaseController extends AbstractController {
 	@ResponseBody
 	public long createUser() {
 		User user = new User();
-		user.setUsername("dds");
-		user.setPassword("dedeler");
+		user.setUsername("admin");
+		user.setPassword("7lLEodyoRSvB9W6Rhjc+xfabU0ITmcdbjaW4MfARG5TOb/N7TeMxDB85j/HSm8t1h6pTrATIXySR+yQ5jMo39Q==");// admin
 		user.setFirstName("Destan");
 		return userService.save(user);
 	}
@@ -61,8 +60,7 @@ public class ShowcaseController extends AbstractController {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 
 		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-				DateFormat.LONG, locale);
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
 

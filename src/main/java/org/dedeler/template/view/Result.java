@@ -13,24 +13,24 @@ import org.dedeler.template.exception.ErrorCode;
  * @param <T>
  */
 public class Result {
-	
+
 	public static class Builder {
 		private ErrorCode errorCode;
 		private final boolean success;
 		private String message;
 		private Object resultObject;
-		
-		public Builder(boolean success){
+
+		public Builder(boolean success) {
 			this.success = success;
 		}
-		
-		public Builder(ApiException e, Locale locale){
+
+		public Builder(ApiException e, Locale locale) {
 			this.success = false;
 			this.message = MessageHelper.getMessage(e.getErrorCode(), locale);
 			this.errorCode = e.getErrorCode();
 			this.resultObject = null;
 		}
-		
+
 		public Builder message(String message) {
 			this.message = message;
 			return this;
@@ -45,7 +45,6 @@ public class Result {
 			this.resultObject = resultObject;
 			return this;
 		}
-		
 
 		public Result build() {
 			if (this.errorCode == null) {
@@ -58,16 +57,16 @@ public class Result {
 			}
 			return new Result(this);
 		}
-		
+
 	}
-	
+
 	private Result(Builder resultBuilder) {
 		this.message = resultBuilder.message;
 		this.success = resultBuilder.success;
 		this.resultObject = resultBuilder.resultObject;
 		this.errorCode = resultBuilder.errorCode;
 	}
-	
+
 	/**
 	 * Only valid if success if false
 	 */

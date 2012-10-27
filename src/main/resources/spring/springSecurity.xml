@@ -7,13 +7,20 @@
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
  
 	<http auto-config="true">
-		<intercept-url pattern="/*" access="ROLE_USER" />
+		<intercept-url pattern="/**" access="${app.defaultAccessRole}" />
+		<logout logout-url="${app.logoutUrl}" success-handler-ref="logoutSuccessHandler"/>
 	</http>
-
-	<beans:bean id="templateAuthenticationProvider" class="org.dedeler.template.security.TemplateAuthenticationProvider"/>
 
 	<authentication-manager>
 		<authentication-provider ref='templateAuthenticationProvider'/>
 	</authentication-manager>
+
+	<beans:bean id="templateAuthenticationProvider" class="org.dedeler.template.security.TemplateAuthenticationProvider"/>
+	
+	<beans:bean id="logoutSuccessHandler" class="org.dedeler.template.security.LogoutSuccessHandler">
+		<beans:constructor-arg>
+			<beans:bean id="jacksonObjectMapperForLogoutHandler" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+		</beans:constructor-arg>
+	</beans:bean>
 </beans:beans>
 

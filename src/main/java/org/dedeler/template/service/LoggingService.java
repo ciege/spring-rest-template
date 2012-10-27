@@ -14,7 +14,7 @@ public class LoggingService {
 		WARNING("default"),
 		ERROR("default"),
 		FATAL("default");
-		
+
 		private final String name;
 
 		private LogLevel(String name) {
@@ -42,7 +42,7 @@ public class LoggingService {
 			return name;
 		}
 	}
-	
+
 	private static final Logger defaultLogger = LoggerFactory.getLogger("default");
 	private static final Logger controllerLogger = LoggerFactory.getLogger("controller");
 	private static final Logger daoLogger = LoggerFactory.getLogger("dao");
