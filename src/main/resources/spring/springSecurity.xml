@@ -17,6 +17,7 @@
 
 	<beans:bean id="templateAuthenticationProvider" class="org.dedeler.template.security.TemplateAuthenticationProvider"/>
 	
+	
 	<beans:bean id="logoutSuccessHandler" class="org.dedeler.template.security.LogoutSuccessHandler">
 		<beans:constructor-arg>
 			<beans:bean id="jacksonObjectMapperForLogoutHandler" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />

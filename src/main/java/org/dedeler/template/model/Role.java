@@ -37,4 +37,14 @@ public class Role extends AbstractModel implements GrantedAuthority {
 		return "Role [name=" + name + ", privileges=" + privileges + "]";
 	}
 
+	public List<Privilege> getPrivileges() {
+		return privileges;
+	}
+
+	public void setPrivileges(List<Privilege> privileges) {
+		this.privileges = privileges;
+	}
+	
+	
+
 }
