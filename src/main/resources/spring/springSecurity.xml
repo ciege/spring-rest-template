@@ -8,6 +8,15 @@
  
 	<http auto-config="true">
 		<intercept-url pattern="/**" access="${app.defaultAccessRole}" />
+		
+		<!-- Uncomment to use custom login pages -->
+<!-- 		<form-login login-page="${app.loginUrl}"  -->
+<!-- 			authentication-failure-url="${app.authenticationFailureUrl}" -->
+<!-- 			default-target-url="${app.defaultTargetUrl}" -->
+<!-- 			username-parameter="${app.usernameParameter}" -->
+<!-- 			password-parameter="${app.passwordParameter}" -->
+<!-- 			always-use-default-target="false" -->
+<!-- 		/> -->
 		<logout logout-url="${app.logoutUrl}" success-handler-ref="logoutSuccessHandler"/>
 	</http>
 
