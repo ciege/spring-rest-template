@@ -34,11 +34,7 @@ public class User extends AbstractModel implements UserDetails {
 
 	private String lastName;
 
-<<<<<<< HEAD
-	@OneToMany(fetch = FetchType.EAGER)
-=======
 	@OneToMany
->>>>>>> logging
 	private List<Role> authorities;
 
 	private boolean accountNonExpired = true;
@@ -49,6 +45,7 @@ public class User extends AbstractModel implements UserDetails {
 
 	private boolean enabled = true;
 
+	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -65,6 +62,7 @@ public class User extends AbstractModel implements UserDetails {
 		this.facebookId = facebookId;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -133,8 +131,6 @@ public class User extends AbstractModel implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-<<<<<<< HEAD
-=======
 
 	@Override
 	public String toString() {
@@ -142,6 +138,5 @@ public class User extends AbstractModel implements UserDetails {
 				+ lastName + ", authorities=" + authorities + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked
 				+ ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + "]";
 	}
->>>>>>> logging
 
 }
