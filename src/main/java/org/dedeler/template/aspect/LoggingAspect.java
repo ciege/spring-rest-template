@@ -45,25 +45,23 @@ public class LoggingAspect {
 
 	private void before(JoinPoint joinPoint, LogType type, LogLevel level) {
 
-		final String fullyQualifiedMethodName = joinPoint.getSignature().getDeclaringType() + "#" + joinPoint.getSignature().getName();
+		final String fullyQualifiedMethodName = joinPoint.getSignature().getDeclaringType().getSimpleName() + "#"
+				+ joinPoint.getSignature().getName();
 
 		if (joinPoint.getArgs() == null || joinPoint.getArgs().length == 0) {
 			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName);
 		}
 		else {
-			loggingService.log(type, level, "Entering " + fullyQualifiedMethodName + " with arguments: [ " + extractArguments(joinPoint.getArgs())
-					+ " ]");
+			loggingService.log(type, level, "\nEntering " + fullyQualifiedMethodName + "\nArguments: [ " + extractArguments(joinPoint.getArgs())
+					+ " ]\n");
 		}
 	}
 
 	private void after(JoinPoint joinPoint, Object returnValue, long duration, LogType type, LogLevel level) {
 
-		// if (joinPoint.getSignature().getDeclaringType().equals(LoggingService.class)) {
-		// return;
-		// }
-
 		String returnValueString = returnValue != null ? returnValue.toString() : "";
-		final String fullyQualifiedMethodName = joinPoint.getSignature().getDeclaringType() + "#" + joinPoint.getSignature().getName();
+		final String fullyQualifiedMethodName = joinPoint.getSignature().getDeclaringType().getSimpleName() + "#"
+				+ joinPoint.getSignature().getName();
 		if (joinPoint.getSignature() instanceof MethodSignature) {
 			MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 			Class<?> returnType = signature.getReturnType();
@@ -72,8 +70,8 @@ public class LoggingAspect {
 			}
 		}
 
-		loggingService.log(type, level,
-				"Returning " + fullyQualifiedMethodName + " in " + duration + "ms with return value: " + returnValueString.toString());
+		loggingService.log(type, level, "\nReturning " + fullyQualifiedMethodName + "\nExecution time:  " + duration + "ms\nReturn value: "
+				+ returnValueString.toString() + "\n");
 	}
 
 	private String extractArguments(Object[] args) {

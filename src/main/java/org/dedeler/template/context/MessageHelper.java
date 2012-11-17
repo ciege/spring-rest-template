@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.annotation.PostConstruct;
 
 import org.dedeler.template.exception.ErrorCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -14,13 +15,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MessageHelper {
+
+	@Autowired
 	private static MessageSource messageSource;
 
 	private static String defaultLocale;
-
-	static {
-		messageSource = ProjectContext.getMessageSource();
-	}
 
 	public static String getMessage(String key) {
 		return getMessage(key, new Locale(defaultLocale));

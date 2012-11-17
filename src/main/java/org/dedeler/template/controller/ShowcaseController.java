@@ -39,8 +39,8 @@ public class ShowcaseController extends AbstractController {
 	@ResponseBody
 	public long createUser() {
 		User user = new User();
-		user.setUsername("dds");
-		user.setPassword("dedeler");
+		user.setUsername("admin");
+		user.setPassword("7lLEodyoRSvB9W6Rhjc+xfabU0ITmcdbjaW4MfARG5TOb/N7TeMxDB85j/HSm8t1h6pTrATIXySR+yQ5jMo39Q==");// admin
 		user.setFirstName("Destan");
 		return userService.save(user);
 	}

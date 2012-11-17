@@ -9,7 +9,7 @@ import org.dedeler.template.service.LoggingService.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,7 +56,7 @@ public class HomeController extends AbstractController {
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	@ResponseBody
-	@Secured({ "ROLE_ADMIN" })
+	@PreAuthorize(value = "hasPermission(null,'PERMISSION_ADMIN_CONTROLLER')")
 	public List<String> admin(Locale locale, Model model) {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 		logger.info(test);

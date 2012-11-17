@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,7 +34,11 @@ public class User extends AbstractModel implements UserDetails {
 
 	private String lastName;
 
+<<<<<<< HEAD
 	@OneToMany(fetch = FetchType.EAGER)
+=======
+	@OneToMany
+>>>>>>> logging
 	private List<Role> authorities;
 
 	private boolean accountNonExpired = true;
@@ -130,5 +133,15 @@ public class User extends AbstractModel implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", facebookId=" + facebookId + ", password=" + password + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", authorities=" + authorities + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked
+				+ ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + "]";
+	}
+>>>>>>> logging
 
 }

@@ -61,7 +61,7 @@ public class GenericDao<T extends AbstractModel> {
 		try {
 			t.setDeleted(true);
 			t.setModificationDate(Calendar.getInstance());
-			t.setDeletedDate(Calendar.getInstance());
+			t.setDeletionDate(Calendar.getInstance());
 			sessionFactory.getCurrentSession().save(t);
 			return true;
 		}

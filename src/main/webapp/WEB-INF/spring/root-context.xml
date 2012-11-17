@@ -28,7 +28,14 @@
 
 	<context:component-scan base-package="org.dedeler.template" />
 
-	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" jsr250-annotations="enabled" pre-post-annotations="enabled" />
+	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" jsr250-annotations="enabled" pre-post-annotations="enabled">
+		<security:expression-handler ref="expressionHandler"/>
+	</security:global-method-security>
+	
+	<bean id="expressionHandler"
+      class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator" ref="templatePermissionEvaluator"/>
+    </bean>
 
 
 	<!-- Import Beans -->
