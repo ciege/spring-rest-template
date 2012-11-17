@@ -2,28 +2,9 @@ package org.dedeler.template.service;
 
 import javax.validation.ValidationException;
 
-import org.dedeler.template.dao.GenericDao;
 import org.dedeler.template.model.AbstractModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-public abstract class GenericService<T extends AbstractModel> {
-
-	protected GenericDao<T> dao;
-
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-	/**
-	 * Instantiates a new generic service.
-	 * 
-	 * @param dao
-	 *            the dao
-	 */
-	public GenericService(GenericDao<T> dao) {
-		this.dao = dao;
-	}
+public interface GenericService<T extends AbstractModel> {
 
 	/**
 	 * Delete generic.
@@ -31,9 +12,7 @@ public abstract class GenericService<T extends AbstractModel> {
 	 * @param t
 	 *            the t
 	 */
-	public void delete(T t) {
-		dao.delete(t);
-	}
+	public void delete(T t);
 
 	/**
 	 * Find by id generic.
@@ -44,9 +23,7 @@ public abstract class GenericService<T extends AbstractModel> {
 	 *            the id
 	 * @return the t
 	 */
-	public T findById(Class<T> klaz, long id) {
-		return dao.findById(klaz, id);
-	}
+	public T findById(Class<T> klaz, long id);
 
 	/**
 	 * Save generic.
@@ -57,9 +34,7 @@ public abstract class GenericService<T extends AbstractModel> {
 	 * @throws ValidationException
 	 *             the validation exception
 	 */
-	public long save(T t) throws ValidationException {
-		return dao.save(t);
-	}
+	public long save(T t) throws ValidationException;
 
 	/**
 	 * Update generic.
@@ -69,7 +44,5 @@ public abstract class GenericService<T extends AbstractModel> {
 	 * @return true, if successful
 	 * @throws DataCreationException
 	 */
-	public boolean update(T t) {
-		return dao.update(t);
-	}
+	public boolean update(T t);
 }
