@@ -32,7 +32,7 @@ public class AbstractController {
 	public @ResponseBody
 	Result handleException(Exception exception, Locale locale) {
 		ErrorCode errorCode = ErrorCode.UNKNOWN_ERROR;
-		return (new Builder(false)).message(MessageHelper.getMessage(errorCode, locale)).errorCode(errorCode).build();
+		return (new Builder(false)).message(MessageHelper.getMessage(errorCode, locale)+": "+exception.getMessage()).errorCode(errorCode).build();
 	}
 
 }
