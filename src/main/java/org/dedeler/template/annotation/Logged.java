@@ -8,6 +8,12 @@ import java.lang.annotation.Target;
 import org.dedeler.template.service.LoggingService.LogLevel;
 import org.dedeler.template.service.LoggingService.LogType;
 
+/**
+ * Enables public method logging to satisfy enterprise bros
+ * 
+ * @author destan
+ * 
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Logged {
