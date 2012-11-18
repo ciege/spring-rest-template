@@ -15,7 +15,7 @@ public abstract class AbstractModel implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private long oid;
+	private Long oid;
 
 	private boolean deleted;
 
@@ -60,11 +60,11 @@ public abstract class AbstractModel implements Serializable {
 		this.deletionDate = deletionDate;
 	}
 
-	public long getOid() {
+	public Long getOid() {
 		return oid;
 	}
 
-	public void setOid(long oid) {
+	public void setOid(Long oid) {
 		this.oid = oid;
 	}
 

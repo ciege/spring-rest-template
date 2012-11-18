@@ -57,7 +57,7 @@ public abstract class GenericService<T extends AbstractModel> {
 	 * @throws ValidationException
 	 *             the validation exception
 	 */
-	public long save(T t) throws ValidationException {
+	public Long save(T t) throws ValidationException {
 		return dao.save(t);
 	}
 
