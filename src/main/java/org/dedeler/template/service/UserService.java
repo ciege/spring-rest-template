@@ -1,5 +1,7 @@
 package org.dedeler.template.service;
 
+import java.util.Calendar;
+
 import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.dao.UserDao;
 import org.dedeler.template.model.User;
@@ -26,5 +28,27 @@ public class UserService extends GenericService<User> {
 	public User findByUsername(final String username) {
 		return ((UserDao) this.dao).findByUsername(username);
 	}
+	
+	public User create(User user){
+		
+		//Clean dirty fields
+		user.setAccountNonExpired(true);
+		user.setAccountNonLocked(true);
+		user.setAuthorities(null);
+		user.setCreationDate(Calendar.getInstance());
+		user.setCredentialsNonExpired(true);
+		user.setDeleted(false);
+		user.setDeletionDate(null);
+		user.setEnabled(true);
+		user.setModificationDate(null);
+		user.setOid(null);
+		
+		Long id = this.dao.save(user); //FIXME: validation exceptions?
+		User createdUser = this.dao.findById(User.class, id);
+		return createdUser;
+	}
+	
+	
+	
 
 }
