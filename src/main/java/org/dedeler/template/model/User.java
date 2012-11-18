@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,7 @@ public class User extends AbstractModel implements UserDetails {
 	private String lastName;
 
 	@OneToMany
+	@JsonIgnore
 	private List<Role> authorities;
 
 	private boolean accountNonExpired = true;
