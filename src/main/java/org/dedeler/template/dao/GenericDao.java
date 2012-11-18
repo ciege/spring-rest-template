@@ -120,7 +120,7 @@ public class GenericDao<T extends AbstractModel> {
 		}
 	}
 
-	public long save(T t) {
+	public Long save(T t) {
 		try {
 			checkValidations(t);
 			t.setModificationDate(Calendar.getInstance());
@@ -128,18 +128,21 @@ public class GenericDao<T extends AbstractModel> {
 			Long l = (Long) sessionFactory.getCurrentSession().save(t);
 			// getSingleSession().beginTransaction().commit();
 			return l;
+		}catch(ValidationException e){
+			e.printStackTrace(); 
+			return null; //FIXME: maybe escalate? consider.
 		}
 		catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			return -1;
+			e.printStackTrace(); //FIXME: log
+			return null;
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return -1;
+			e.printStackTrace();  //FIXME: log
+			return null;
 		}
 	}
 
-	public boolean update(T t) {
+	public boolean update(T t) { //FIXME: deleted objects should not be updated
 		try {
 
 			checkValidations(t);
