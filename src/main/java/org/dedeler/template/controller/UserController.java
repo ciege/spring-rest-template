@@ -1,5 +1,7 @@
 package org.dedeler.template.controller;
 
+import java.util.Collection;
+
 import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
@@ -36,6 +38,17 @@ public class UserController extends AbstractController {
 		return new Builder(true).resultObject(createdUser).build();
 	}
 	
+	
+	@RequestMapping(value="/create", method=RequestMethod.GET)
+	@ResponseBody
+	public Result createUserDoc(){
+		//Experimental method, to test the "in-place documentation" idea
+		//TODO: add appropriate error code
+		//TODO: add a documentation class
+		String[] requiredFields = {"username","password","firstName"};
+		return new Builder(false).errorCode(ErrorCode.UNKNOWN_ERROR).resultObject(requiredFields).build();
+	}
+	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	@ResponseBody
 	public Result updateUser(@RequestBody User user){
@@ -43,7 +56,6 @@ public class UserController extends AbstractController {
 		Builder b = new Builder(success);
 		if(success){
 			User updatedUser = userService.findById(User.class, user.getOid());
-			updatedUser.setPassword(null); // FIXME: fugly
 			b.resultObject(updatedUser);
 		}else{
 			b.errorCode(ErrorCode.UNKNOWN_ERROR); //FIXME: architectural decisions?
@@ -62,6 +74,15 @@ public class UserController extends AbstractController {
 	public Result getUser(@PathVariable("oid") Long oid){
 		User user = userService.findById(User.class, oid);
 		return new Builder(true).resultObject(user).build();
+	}
+	
+	@RequestMapping(value="/list")
+	@ResponseBody
+	public Result listUsers(){
+		
+		Collection<User> userList = userService.listAll();
+		return new Builder(true).resultObject(userList).build();
+		
 	}
 	
 }

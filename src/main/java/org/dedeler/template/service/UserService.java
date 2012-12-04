@@ -1,6 +1,7 @@
 package org.dedeler.template.service;
 
 import java.util.Calendar;
+import java.util.Collection;
 
 import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.dao.UserDao;
@@ -46,6 +47,11 @@ public class UserService extends GenericService<User> {
 		Long id = this.dao.save(user); //FIXME: validation exceptions?
 		User createdUser = this.dao.findById(User.class, id);
 		return createdUser;
+	}
+	
+	public Collection<User> listAll(){
+		Collection<User> userList = dao.findAll(User.class);
+		return userList;
 	}
 	
 	
