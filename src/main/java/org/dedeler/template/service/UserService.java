@@ -1,12 +1,13 @@
 package org.dedeler.template.service;
 
-import java.util.Calendar;
 import java.util.Collection;
 
 import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.dao.UserDao;
 import org.dedeler.template.model.User;
 import org.dedeler.template.service.LoggingService.LogType;
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.errors.EncryptionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,18 +32,15 @@ public class UserService extends GenericService<User> {
 	}
 	
 	public User create(User user){
-		
-		//Clean dirty fields
-		user.setAccountNonExpired(true);
-		user.setAccountNonLocked(true);
-		user.setAuthorities(null);
-		user.setCreationDate(Calendar.getInstance());
-		user.setCredentialsNonExpired(true);
-		user.setDeleted(false);
-		user.setDeletionDate(null);
-		user.setEnabled(true);
-		user.setModificationDate(null);
-		user.setOid(null);
+		User newUser = new User();
+		copyFields(user, newUser, new String[]{"username","facebookId","firstName", "lastName"}, User.class);
+		try {
+			String hashedPassword = ESAPI.encryptor().hash((String) user.getPassword(), user.getUsername());
+			user.setPassword(hashedPassword);
+		} catch (EncryptionException e) {
+			logger.error(e.getLogMessage(),e);
+			throw new RuntimeException(); //TODO: really?
+		}
 		
 		Long id = this.dao.save(user); //FIXME: validation exceptions?
 		User createdUser = this.dao.findById(User.class, id);
@@ -57,7 +55,6 @@ public class UserService extends GenericService<User> {
 	public boolean delete(Long oid){
 		return delete(oid, User.class);
 	}
-	
 	
 
 }

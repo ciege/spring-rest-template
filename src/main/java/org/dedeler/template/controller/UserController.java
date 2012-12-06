@@ -1,10 +1,8 @@
 package org.dedeler.template.controller;
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.dedeler.template.annotation.Logged;
-import org.dedeler.template.annotation.PartialUpdateTarget;
 import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
 import org.dedeler.template.service.LoggingService.LogType;
@@ -49,10 +47,9 @@ public class UserController extends AbstractController {
 	
 	@RequestMapping(value="/{oid}", method=RequestMethod.PUT)
 	@ResponseBody
-	public Result updateUser(@PathVariable("oid") Long oid, @RequestBody Map<String, Object> userMap, @PartialUpdateTarget User user){
-		//TODO: copy fields from userMap to user
-//		Boolean success = userService.update(user);
-		boolean success = false;
+	public Result updateUser(@PathVariable("oid") Long oid, @RequestBody User user){
+		user.setOid(oid);
+		Boolean success = userService.updateFields(user, new String[]{"firstName","lastName","username","facebookId"}, User.class);
 		Builder b = new Builder(success);
 		if(success){
 			User updatedUser = userService.findById(User.class, user.getOid());
@@ -71,14 +68,14 @@ public class UserController extends AbstractController {
 		return new Builder(success).build(); //FIXME: current architecture does not allow failure reason to be bubbled up here.
 	}
 	
+	//TODO: add search support to list
 	@RequestMapping(value="/list")
 	@ResponseBody
 	public Result listUsers(){
-		
 		Collection<User> userList = userService.listAll();
 		return new Builder(true).resultObject(userList).build();
-		
 	}
+	
 	
 	
 }
