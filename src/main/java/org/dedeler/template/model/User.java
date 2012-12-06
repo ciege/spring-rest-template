@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,10 +66,12 @@ public class User extends AbstractModel implements UserDetails {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -95,21 +98,25 @@ public class User extends AbstractModel implements UserDetails {
 	}
 
 	@Override
+	@JsonProperty
 	public boolean isAccountNonExpired() {
 		return this.accountNonExpired;
 	}
 
 	@Override
+	@JsonProperty
 	public boolean isAccountNonLocked() {
 		return this.accountNonLocked;
 	}
 
 	@Override
+	@JsonProperty
 	public boolean isCredentialsNonExpired() {
 		return this.credentialsNonExpired;
 	}
 
 	@Override
+	@JsonProperty
 	public boolean isEnabled() {
 		return this.enabled;
 	}
@@ -118,18 +125,22 @@ public class User extends AbstractModel implements UserDetails {
 		this.authorities = authorities;
 	}
 
+	@JsonIgnore
 	public void setAccountNonExpired(boolean accountNonExpired) {
 		this.accountNonExpired = accountNonExpired;
 	}
 
+	@JsonIgnore
 	public void setAccountNonLocked(boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
 	}
 
+	@JsonIgnore
 	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
+	@JsonIgnore
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}

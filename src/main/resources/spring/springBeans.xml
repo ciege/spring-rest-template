@@ -10,6 +10,7 @@
 
 	<!-- Aspect -->
 	<bean id="logAspect" class="org.dedeler.template.aspect.LoggingAspect" />
+	<bean id="partialFieldAspect" class="org.dedeler.template.aspect.PartialFieldAspect" />
 
 	<!-- Property Placeholder Configurer -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

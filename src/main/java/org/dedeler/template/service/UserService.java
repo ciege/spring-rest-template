@@ -54,6 +54,9 @@ public class UserService extends GenericService<User> {
 		return userList;
 	}
 	
+	public boolean delete(Long oid){
+		return delete(oid, User.class);
+	}
 	
 	
 

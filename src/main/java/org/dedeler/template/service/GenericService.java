@@ -25,14 +25,24 @@ public abstract class GenericService<T extends AbstractModel> {
 		this.dao = dao;
 	}
 
+	
 	/**
-	 * Delete generic.
-	 * 
-	 * @param t
-	 *            the t
+	 * Generic delete a persistent object.
+	 * @param t The instance to be deleted
+	 * @return true for success, false for failure
 	 */
-	public void delete(T t) {
-		dao.delete(t);
+	public boolean delete(T t) {
+		return dao.delete(t);
+	}
+	
+	/**
+	 * Generic delete a persistent object.
+	 * @param oid The oid of the object to be deleted
+	 * @param persistentClass The class for the object
+	 * @return  true for success, false for failure
+	 */
+	public boolean delete(Long oid, Class<T> persistentClass) {
+		return dao.delete(oid, persistentClass);
 	}
 
 	/**

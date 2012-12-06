@@ -1,8 +1,10 @@
 package org.dedeler.template.controller;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.dedeler.template.annotation.Logged;
+import org.dedeler.template.annotation.PartialUpdateTarget;
 import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.model.User;
 import org.dedeler.template.service.LoggingService.LogType;
@@ -31,28 +33,26 @@ public class UserController extends AbstractController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/create", method=RequestMethod.POST)
+	@RequestMapping(value="/{oid}", method=RequestMethod.GET)
+	@ResponseBody
+	public Result getUser(@PathVariable("oid") Long oid){
+		User user = userService.findById(User.class, oid);
+		return new Builder(true).resultObject(user).build();
+	}
+	
+	@RequestMapping(value="", method=RequestMethod.POST)
 	@ResponseBody
 	public Result createUser(@RequestBody User user){
 		User createdUser = userService.create(user);
 		return new Builder(true).resultObject(createdUser).build();
 	}
 	
-	
-	@RequestMapping(value="/create", method=RequestMethod.GET)
+	@RequestMapping(value="/{oid}", method=RequestMethod.PUT)
 	@ResponseBody
-	public Result createUserDoc(){
-		//Experimental method, to test the "in-place documentation" idea
-		//TODO: add appropriate error code
-		//TODO: add a documentation class
-		String[] requiredFields = {"username","password","firstName"};
-		return new Builder(false).errorCode(ErrorCode.UNKNOWN_ERROR).resultObject(requiredFields).build();
-	}
-	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	@ResponseBody
-	public Result updateUser(@RequestBody User user){
-		Boolean success = userService.update(user);
+	public Result updateUser(@PathVariable("oid") Long oid, @RequestBody Map<String, Object> userMap, @PartialUpdateTarget User user){
+		//TODO: copy fields from userMap to user
+//		Boolean success = userService.update(user);
+		boolean success = false;
 		Builder b = new Builder(success);
 		if(success){
 			User updatedUser = userService.findById(User.class, user.getOid());
@@ -62,18 +62,13 @@ public class UserController extends AbstractController {
 		}
 		return b.build();
 	}
-	@RequestMapping(value="/deactivate", method=RequestMethod.POST)
-	@ResponseBody
-	public Result deleteUser(@RequestBody User user){
-		userService.delete(user);
-		return new Builder(true).build();
-	}
 	
-	@RequestMapping(value="/get/{oid}", method=RequestMethod.GET)
+	
+	@RequestMapping(value="/{oid}", method=RequestMethod.DELETE)
 	@ResponseBody
-	public Result getUser(@PathVariable("oid") Long oid){
-		User user = userService.findById(User.class, oid);
-		return new Builder(true).resultObject(user).build();
+	public Result deleteUser(@PathVariable("oid") Long oid){
+		boolean success = userService.delete(oid);
+		return new Builder(success).build(); //FIXME: current architecture does not allow failure reason to be bubbled up here.
 	}
 	
 	@RequestMapping(value="/list")
@@ -84,5 +79,6 @@ public class UserController extends AbstractController {
 		return new Builder(true).resultObject(userList).build();
 		
 	}
+	
 	
 }

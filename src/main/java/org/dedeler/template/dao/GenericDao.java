@@ -71,6 +71,11 @@ public class GenericDao<T extends AbstractModel> {
 			return false;
 		}
 	}
+	
+	public boolean delete(Long oid, Class<T> persistentClass){
+		T persistentObject = findById(persistentClass, oid);
+		return delete(persistentObject);
+	}
 
 	@SuppressWarnings("unchecked")
 	public Collection<T> findAll(Class<T> persistentClass) {
