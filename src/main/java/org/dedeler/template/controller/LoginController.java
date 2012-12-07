@@ -22,64 +22,66 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Logged(type = LogType.CONTROLLER)
 @Controller
-@RequestMapping(value="/login")
+@RequestMapping(value = "/login")
 public class LoginController extends AbstractController {
 
-	
 	@Autowired
-	@Qualifier(value="authenticationManager")
+	@Qualifier(value = "authenticationManager")
 	private AuthenticationManager authenticationManager;
-	
+
 	private SimpleGrantedAuthority anonymousRole = new SimpleGrantedAuthority("ROLE_ANONYMOUS");
-	
+
 	@RequestMapping("/status")
 	@ResponseBody
-	public Result getStatus(){
+	public Result getStatus() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		LoginStatus loginStatus = null;
-		
-		if(auth!=null && !isAnonymous(auth) && auth.isAuthenticated()){
+
+		if (auth != null && !isAnonymous(auth) && auth.isAuthenticated()) {
 			loginStatus = new LoginStatus(true, auth.getName());
-		}else{
+		}
+		else {
 			loginStatus = new LoginStatus(false, null);
 		}
 		return new Builder(true).resultObject(loginStatus).build();
 	}
-	@RequestMapping(method=RequestMethod.POST,value="/")
+
+	@RequestMapping(method = RequestMethod.POST, value = "/")
 	@ResponseBody
-	public Result login(@RequestBody User user){
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
+	public Result login(@RequestBody User user) {
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 		try {
 			Authentication auth = authenticationManager.authenticate(token);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			LoginStatus loginStatus = new LoginStatus(auth.isAuthenticated(), auth.getName());
 			return new Builder(true).resultObject(loginStatus).build();
-		} catch (BadCredentialsException e) {
+		}
+		catch (BadCredentialsException e) {
 			LoginStatus loginStatus = new LoginStatus(false, null);
 			return new Builder(false).errorCode(ErrorCode.INVALID_CREDENTIALS).resultObject(loginStatus).build();
 		}
 	}
-	
-	private boolean isAnonymous(Authentication auth){
+
+	private boolean isAnonymous(Authentication auth) {
 		return auth.getAuthorities().contains(anonymousRole);
 	}
-	
+
 	public class LoginStatus {
-		 
-	    private final boolean loggedIn;
-	    private final String username;
-	 
-	    public LoginStatus(boolean loggedIn, String username) {
-	      this.loggedIn = loggedIn;
-	      this.username = username;
-	    }
-	 
-	    public boolean isLoggedIn() {
-	      return loggedIn;
-	    }
-	 
-	    public String getUsername() {
-	      return username;
-	    }
-	  } 
+
+		private final boolean loggedIn;
+		private final String username;
+
+		public LoginStatus(boolean loggedIn, String username) {
+			this.loggedIn = loggedIn;
+			this.username = username;
+		}
+
+		public boolean isLoggedIn() {
+			return loggedIn;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+	}
 }

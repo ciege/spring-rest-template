@@ -13,12 +13,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+
 /**
  * A template authentication provider. Uses the UserService to check authentication.
  * Note the lack of @Component annotation: the bean definition for this class resides in
  * springSecurity.xml, due to bean initialization order problems.
+ * 
  * @author yasa
- *
+ * 
  */
 public class TemplateAuthenticationProvider implements AuthenticationProvider {
 

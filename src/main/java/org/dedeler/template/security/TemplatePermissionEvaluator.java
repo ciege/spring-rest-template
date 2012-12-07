@@ -15,9 +15,8 @@ public class TemplatePermissionEvaluator implements PermissionEvaluator {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean hasPermission(Authentication authentication,
-			Object targetDomainObject, Object permission) {
-		
+	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+
 		Collection<Role> authorities = (Collection<Role>) authentication.getAuthorities();
 		for (Role role : authorities) {
 			List<Privilege> privileges = role.getPrivileges();
@@ -31,8 +30,7 @@ public class TemplatePermissionEvaluator implements PermissionEvaluator {
 	}
 
 	@Override
-	public boolean hasPermission(Authentication authentication,
-			Serializable targetId, String targetType, Object permission) {
+	public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
 		return hasPermission(authentication, null, permission);
 	}
 

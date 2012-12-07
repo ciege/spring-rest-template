@@ -10,9 +10,10 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Represents a role. 
+ * Represents a role.
+ * 
  * @author yasa
- *
+ * 
  */
 @Entity
 @Table(name = "TemplateRole")
@@ -25,7 +26,7 @@ public class Role extends AbstractModel implements GrantedAuthority {
 	 * We'll almost always need the privilege list
 	 * initialized, so we set the fetch type to eager.
 	 * TemplatePermissionEvaluator#hasPermission relies
-	 * on this. 
+	 * on this.
 	 */
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Privilege> privileges;
