@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 
+import org.dedeler.template.exception.ApiDaoLayerException;
 import org.dedeler.template.model.AbstractModel;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -66,9 +67,8 @@ public class GenericDao<T extends AbstractModel> {
 			return true;
 		}
 		catch (DataAccessException e) {
-			e.printStackTrace();
 			logger.error("DataAccessException", e);
-			return false;
+			throw new ApiDaoLayerException(e);
 		}
 	}
 
@@ -84,8 +84,8 @@ public class GenericDao<T extends AbstractModel> {
 			return (T) createCriteria(persistentClass).add(Restrictions.eq("id", id)).uniqueResult();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			logger.error("Exception", e);
+			throw new ApiDaoLayerException(e);
 		}
 	}
 
@@ -95,9 +95,8 @@ public class GenericDao<T extends AbstractModel> {
 			return true;
 		}
 		catch (DataAccessException e) {
-			e.printStackTrace();
-			logger.error("Unexpected error", e);
-			return false;
+			logger.error("DataAccessException", e);
+			throw new ApiDaoLayerException(e);
 		}
 	}
 
@@ -111,12 +110,12 @@ public class GenericDao<T extends AbstractModel> {
 			return true;
 		}
 		catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			return false;
+			logger.error("DataIntegrityViolationException", e);
+			throw new ApiDaoLayerException(e);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			logger.error("Exception", e);
+			throw new ApiDaoLayerException(e);
 		}
 	}
 
@@ -130,34 +129,30 @@ public class GenericDao<T extends AbstractModel> {
 			return l;
 		}
 		catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			return -1;
+			logger.error("DataIntegrityViolationException", e);
+			throw new ApiDaoLayerException(e);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return -1;
+			logger.error("Exception", e);
+			throw new ApiDaoLayerException(e);
 		}
 	}
 
 	public boolean update(T t) {
 		try {
-
 			checkValidations(t);
 			t.setModificationDate(Calendar.getInstance());
 			t.setDeleted(false);
-			// getHibernateTemplate().setAllowCreate(false);
-			// getSingleSession().beginTransaction().begin();
 			sessionFactory.getCurrentSession().update(t);
-			// getSingleSession().beginTransaction().commit();
 			return true;
 		}
 		catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			return false;
+			logger.error("DataIntegrityViolationException", e);
+			throw new ApiDaoLayerException(e);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			logger.error("DataIntegrityViolationException", e);
+			throw new ApiDaoLayerException(e);
 		}
 	}
 
@@ -173,10 +168,8 @@ public class GenericDao<T extends AbstractModel> {
 				logger.error(cv.toString());
 				logger.error(cv.getInvalidValue().toString());
 				logger.error(cv.getMessageTemplate());
-				// logger.error(cv.getLeafBean()); //TODO: nekibuki
-
 			}
-			throw new ValidationException("Validation failed: " + cv.getMessage());
+			throw new ApiDaoLayerException(new ValidationException("Validation failed: " + cv.getMessage()));
 		}
 	}
 

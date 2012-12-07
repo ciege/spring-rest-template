@@ -15,6 +15,12 @@ public class ApiException extends RuntimeException {
 		this.message = MessageHelper.getMessage(errorCode.toString(), Locale.ENGLISH);
 	}
 
+	public ApiException(ErrorCode errorCode, Throwable cause) {
+		super(cause);
+		this.errorCode = errorCode;
+		this.message = MessageHelper.getMessage(errorCode.toString(), Locale.ENGLISH);
+	}
+
 	public ErrorCode getErrorCode() {
 		return errorCode;
 	}
