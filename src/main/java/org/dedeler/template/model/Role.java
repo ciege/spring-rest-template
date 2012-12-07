@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -39,6 +41,7 @@ public class Role extends AbstractModel implements GrantedAuthority {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getAuthority() {
 		return this.name;
 	}
@@ -48,10 +51,12 @@ public class Role extends AbstractModel implements GrantedAuthority {
 		return "Role [name=" + name + ", privileges=" + privileges + "]";
 	}
 
+	@JsonProperty
 	public List<Privilege> getPrivileges() {
 		return privileges;
 	}
 
+	@JsonIgnore
 	public void setPrivileges(List<Privilege> privileges) {
 		this.privileges = privileges;
 	}

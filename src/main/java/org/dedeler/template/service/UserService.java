@@ -33,18 +33,17 @@ public class UserService extends GenericService<User> {
 	
 	public User create(User user){
 		User newUser = new User();
-		copyFields(user, newUser, new String[]{"username","facebookId","firstName", "lastName"}, User.class);
+		copyFields(user, newUser, new String[]{"username","facebookId","firstName", "lastName", "password"}, User.class);
 		try {
 			String hashedPassword = ESAPI.encryptor().hash((String) user.getPassword(), user.getUsername());
-			user.setPassword(hashedPassword);
+			newUser.setPassword(hashedPassword);
 		} catch (EncryptionException e) {
 			logger.error(e.getLogMessage(),e);
 			throw new RuntimeException(); //TODO: really?
 		}
 		
-		Long id = this.dao.save(user); //FIXME: validation exceptions?
-		User createdUser = this.dao.findById(User.class, id);
-		return createdUser;
+		this.dao.save(newUser); //FIXME: are validation exceptions bubbled up?
+		return newUser;
 	}
 	
 	public Collection<User> listAll(){
