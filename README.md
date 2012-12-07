@@ -8,6 +8,15 @@ Hopefully no more "1h development 46543573h configuration" problems for early ph
 Setup
 =====
 
+**Create DB**
+
+    $  sudo -u postgres createuser -D -A -P dede
+    [sudo] password for destan: 
+    Enter password for new role: 
+    Enter it again: 
+    Shall the new role be allowed to create more new roles? (y/n) n
+    $ sudo -u postgres createdb -O dede dededb
+
 **Give JVM parameter for logs**
 
     -Dlog4j.logFolder="/home/destan/Desktop/logs"
