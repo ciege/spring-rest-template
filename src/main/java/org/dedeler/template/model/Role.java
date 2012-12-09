@@ -16,7 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
  * 
  */
 @Entity
-@Table(name = "TemplateRole")
+@Table(name = "Role")
 public class Role extends AbstractModel implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
@@ -44,17 +44,23 @@ public class Role extends AbstractModel implements GrantedAuthority {
 		return this.name;
 	}
 
-	@Override
-	public String toString() {
-		return "Role [name=" + name + ", privileges=" + privileges + "]";
-	}
-
 	public List<Privilege> getPrivileges() {
 		return privileges;
 	}
 
 	public void setPrivileges(List<Privilege> privileges) {
 		this.privileges = privileges;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Role [name=");
+		builder.append(name);
+		builder.append(", privileges=");
+		builder.append(privileges);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

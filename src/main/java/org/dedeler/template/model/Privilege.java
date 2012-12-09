@@ -3,8 +3,16 @@ package org.dedeler.template.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Represent a privilege which grants permission to reach a resource/service which needs authorization. <br>
+ * <br>
+ * Note that privileges are own by no entities but {@link Role}
+ * 
+ * @author yasa
+ * 
+ */
 @Entity
-@Table(name = "TemplatePrivilege")
+@Table(name = "Privilege")
 public class Privilege extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +29,11 @@ public class Privilege extends AbstractModel {
 
 	@Override
 	public String toString() {
-		return "Privilege [name=" + name + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Privilege [name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

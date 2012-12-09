@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "TemplateUser")
+@Table(name = "User")
 public class User extends AbstractModel implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,9 @@ public class User extends AbstractModel implements UserDetails {
 	@Column(unique = true, nullable = true)
 	private String facebookId;
 
+	@Column(unique = true, nullable = true)
+	private String email;
+
 	@NotNull
 	@Length(min = 6)
 	private String password;
@@ -33,6 +36,8 @@ public class User extends AbstractModel implements UserDetails {
 	private String firstName;
 
 	private String lastName;
+
+	/* Spring Security fields*/
 
 	@OneToMany
 	private List<Role> authorities;
@@ -132,11 +137,41 @@ public class User extends AbstractModel implements UserDetails {
 		this.enabled = enabled;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", facebookId=" + facebookId + ", password=" + password + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", authorities=" + authorities + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked
-				+ ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [username=");
+		builder.append(username);
+		builder.append(", facebookId=");
+		builder.append(facebookId);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", firstName=");
+		builder.append(firstName);
+		builder.append(", lastName=");
+		builder.append(lastName);
+		builder.append(", authorities=");
+		builder.append(authorities);
+		builder.append(", accountNonExpired=");
+		builder.append(accountNonExpired);
+		builder.append(", accountNonLocked=");
+		builder.append(accountNonLocked);
+		builder.append(", credentialsNonExpired=");
+		builder.append(credentialsNonExpired);
+		builder.append(", enabled=");
+		builder.append(enabled);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

@@ -7,7 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
+/**
+ * All entities shall extend this class. This class provides
+ * common fields for all database entities.
+ * 
+ * @author destan
+ * 
+ */
 @MappedSuperclass
 public abstract class AbstractModel implements Serializable {
 
@@ -15,8 +23,9 @@ public abstract class AbstractModel implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private long oid;
+	private Long oid;
 
+	@NotNull
 	private boolean deleted;
 
 	private Calendar creationDate;
@@ -66,6 +75,23 @@ public abstract class AbstractModel implements Serializable {
 
 	public void setOid(long oid) {
 		this.oid = oid;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AbstractModel [oid=");
+		builder.append(oid);
+		builder.append(", deleted=");
+		builder.append(deleted);
+		builder.append(", creationDate=");
+		builder.append(creationDate);
+		builder.append(", modificationDate=");
+		builder.append(modificationDate);
+		builder.append(", deletionDate=");
+		builder.append(deletionDate);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
