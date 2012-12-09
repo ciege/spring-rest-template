@@ -48,7 +48,7 @@ public class LoggingService {
 	private static final Logger daoLogger = LoggerFactory.getLogger("dao");
 	private static final Logger serviceLogger = LoggerFactory.getLogger("service");
 
-	private Logger getLogger(LogType type) {
+	public static Logger getLogger(LogType type) {
 		switch (type) {
 			case CONTROLLER:
 				return controllerLogger;
