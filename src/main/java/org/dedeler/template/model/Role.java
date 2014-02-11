@@ -21,6 +21,13 @@ public class Role extends AbstractModel implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
+	
+	public Role() {
+	}
+
+	public Role(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * We'll almost always need the privilege list

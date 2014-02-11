@@ -1,14 +1,18 @@
 package org.dedeler.template.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
 import org.dedeler.template.annotation.Logged;
 import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
+import org.dedeler.template.model.Role;
 import org.dedeler.template.model.User;
 import org.dedeler.template.service.LoggingService.LogType;
+import org.dedeler.template.service.RoleService;
 import org.dedeler.template.service.UserService;
 import org.dedeler.template.view.Result;
 import org.dedeler.template.view.Result.Builder;
@@ -34,14 +38,22 @@ public class ShowcaseController extends AbstractController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.GET)
 	@ResponseBody
 	public long createUser() {
+		Role role = new Role("ROLE_USER");
+				
 		User user = new User();
 		user.setUsername("admin");
 		user.setPassword("7lLEodyoRSvB9W6Rhjc+xfabU0ITmcdbjaW4MfARG5TOb/N7TeMxDB85j/HSm8t1h6pTrATIXySR+yQ5jMo39Q==");// admin
 		user.setFirstName("Destan");
+		user.setAuthorities(Arrays.asList(role));
+		
+		roleService.save(role);
 		return userService.save(user);
 	}
 

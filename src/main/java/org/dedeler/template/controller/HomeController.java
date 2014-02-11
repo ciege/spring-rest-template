@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 /**
  * Handles requests for the application home page.
@@ -72,6 +74,16 @@ public class HomeController extends AbstractController {
 		}
 
 		return list;
+
+	}
+	
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView page(Locale locale, Model model) {
+		logger.info("Welcome home! the client locale is " + locale.toString());
+		logger.info(test);
+
+		return new ModelAndView("home");
 
 	}
 
