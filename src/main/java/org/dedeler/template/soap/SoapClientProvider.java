@@ -45,10 +45,10 @@ public class SoapClientProvider {
 	@Autowired
 	private LoggingService loggingService;
 
-	@Value("${WebserviceTimeout}")
+	@Value("${WebserviceTimeout:10000}")
 	private Integer webserviceTimeout;
 
-	@Value("${webService.commonServiceWsdl}")
+	@Value("${webService.commonServiceWsdl:\"\"}")
 	private String commonServiceWsdl;
 
 }

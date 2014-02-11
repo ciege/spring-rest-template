@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "User")
+@Table(name = "DefaultUser")//user is reserved word in postgres
 public class User extends AbstractModel implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
