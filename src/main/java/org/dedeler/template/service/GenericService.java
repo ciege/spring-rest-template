@@ -1,5 +1,7 @@
 package org.dedeler.template.service;
 
+import java.util.Collection;
+
 import javax.validation.ValidationException;
 
 import org.dedeler.template.dao.GenericDao;
@@ -33,6 +35,16 @@ public abstract class GenericService<T extends AbstractModel> {
 	 */
 	public void delete(T t) {
 		dao.delete(t);
+	}
+	
+	/**
+	 * Delete generic by id.
+	 * 
+	 * @param t
+	 *            the t
+	 */
+	public void deleteById(Class<T> klaz, long oid) {
+		dao.delete(dao.findById(klaz, oid));
 	}
 
 	/**
@@ -71,5 +83,17 @@ public abstract class GenericService<T extends AbstractModel> {
 	 */
 	public boolean update(T t) {
 		return dao.update(t);
+	}
+	
+	/**
+	 * 
+	 * Finds all entries of the generic type
+	 * 
+	 * @param klaz
+	 * @param id
+	 * @return 
+	 */
+	public Collection<T> findAll(Class<T> klaz) {
+		return dao.findAll(klaz);
 	}
 }

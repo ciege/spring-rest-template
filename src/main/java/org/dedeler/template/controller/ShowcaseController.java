@@ -79,7 +79,7 @@ public class ShowcaseController extends AbstractController {
 
 		ApiException e = new ApiException(ErrorCode.UNKNOWN_ERROR);
 
-		Result result = (new Builder(e, locale)).build();
+		Result result = new Builder(e, locale).build();
 
 		return result;
 	}

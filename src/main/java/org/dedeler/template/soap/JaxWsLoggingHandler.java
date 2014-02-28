@@ -88,7 +88,8 @@ public class JaxWsLoggingHandler extends SpringBeanAutowiringSupport implements 
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
 				if (node.getNodeName().equals("transactionId")) {
-					return node.getTextContent();
+					return node.getNodeValue();
+//					return node.getTextContent(); // was using this on java 1.6
 				}
 			}
 			return "-1";

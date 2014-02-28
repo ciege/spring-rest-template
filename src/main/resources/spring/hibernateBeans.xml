@@ -37,11 +37,4 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
-		<property name="sessionFactory">
-			<ref local="sessionFactory" />
-		</property>
-	</bean>
-	
-
 </beans>

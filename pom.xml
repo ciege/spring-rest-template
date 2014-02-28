@@ -8,18 +8,19 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.6</java-version>
+		<java-version>1.7</java-version>
 		<servlet-api-version>2.5</servlet-api-version>
-		<org.springframework-version>3.1.2.RELEASE</org.springframework-version>
-		<org.springframework.spring-mock>2.0.8</org.springframework.spring-mock>
-		<org.aspectj-version>1.6.9</org.aspectj-version>
-		<org.slf4j-version>1.5.10</org.slf4j-version>
-		<org.log4j-version>1.2.16</org.log4j-version>
-		<org.codehaus.jackson-version>1.9.1</org.codehaus.jackson-version>
-		<org.hibernate-version>4.1.7.Final</org.hibernate-version>
-		<org.hibernate.validator-version>4.3.0.Final</org.hibernate.validator-version>
-		<org.owasp.esapi-version>2.0.1</org.owasp.esapi-version>
-		<junit-version>4.7</junit-version>
+		<org.springframework-version>4.0.1.RELEASE</org.springframework-version>
+		<org.springsecurity-version>3.2.0.RELEASE</org.springsecurity-version>
+		<org.springframework.spring-mock>2.0.8</org.springframework.spring-mock> <!-- needs version update -->
+		<org.aspectj-version>1.6.9</org.aspectj-version> <!-- needs version update -->
+		<org.slf4j-version>1.5.10</org.slf4j-version> <!-- needs version update -->
+		<org.log4j-version>1.2.16</org.log4j-version> <!-- needs version update -->
+		<org.codehaus.jackson-version>1.9.13</org.codehaus.jackson-version>
+		<org.hibernate-version>4.3.1.Final</org.hibernate-version>
+		<org.hibernate.validator-version>5.0.3.Final</org.hibernate.validator-version>
+		<org.owasp.esapi-version>2.0.1</org.owasp.esapi-version> <!-- needs version update -->
+		<junit-version>4.7</junit-version> <!-- needs version update -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,23 +42,31 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-framework-bom</artifactId>
+			<version>${org.springframework-version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>${org.springsecurity-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>${org.springsecurity-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>${org.springsecurity-version}</version>
 		</dependency>
 
 		<!-- Hibernate -->
