@@ -2,6 +2,7 @@ package org.dedeler.template.view;
 
 import java.util.Locale;
 
+import org.dedeler.template.context.ApplicationContextProvider;
 import org.dedeler.template.context.MessageHelper;
 import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
@@ -13,6 +14,8 @@ import org.dedeler.template.exception.ErrorCode;
  * @param <T>
  */
 public class Result {
+	
+	private static MessageHelper messageHelper;
 
 	public static class Builder {
 		private ErrorCode errorCode;
@@ -26,7 +29,13 @@ public class Result {
 
 		public Builder(ApiException e, Locale locale) {
 			this.success = false;
-			this.message = MessageHelper.getMessage(e.getErrorCode(), locale);
+			
+			//lazy initialization of messageHelper which can't be autowired because this is not a @component
+			if(messageHelper == null){
+				messageHelper = ApplicationContextProvider.getContext().getBean(MessageHelper.class);
+			}
+			
+			this.message = messageHelper.getMessage(e.getErrorCode(), locale);
 			this.errorCode = e.getErrorCode();
 			this.resultObject = null;
 		}

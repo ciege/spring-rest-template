@@ -1,7 +1,6 @@
 package org.dedeler.template.controller;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;

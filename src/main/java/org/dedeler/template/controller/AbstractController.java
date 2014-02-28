@@ -7,6 +7,7 @@ import org.dedeler.template.exception.ApiException;
 import org.dedeler.template.exception.ErrorCode;
 import org.dedeler.template.view.Result;
 import org.dedeler.template.view.Result.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AbstractController {
+	
+	@Autowired
+	private MessageHelper messageHelper;
 
 	@ExceptionHandler(ApiException.class)
 	public @ResponseBody
@@ -25,14 +29,14 @@ public class AbstractController {
 	public @ResponseBody
 	Result handleException(AccessDeniedException exception, Locale locale) {
 		ErrorCode errorCode = ErrorCode.ACCESS_DENIED;
-		return (new Builder(false)).message(MessageHelper.getMessage(errorCode, locale)).errorCode(errorCode).build();
+		return (new Builder(false)).message(messageHelper.getMessage(errorCode, locale)).errorCode(errorCode).build();
 	}
 
 	@ExceptionHandler(Exception.class)
 	public @ResponseBody
 	Result handleException(Exception exception, Locale locale) {
 		ErrorCode errorCode = ErrorCode.UNKNOWN_ERROR;
-		return (new Builder(false)).message(MessageHelper.getMessage(errorCode, locale) + ": " + exception.getMessage()).errorCode(errorCode).build();
+		return (new Builder(false)).message(messageHelper.getMessage(errorCode, locale) + ": " + exception.getMessage()).errorCode(errorCode).build();
 	}
 
 }

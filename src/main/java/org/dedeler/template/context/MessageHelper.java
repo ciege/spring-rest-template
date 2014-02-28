@@ -17,23 +17,23 @@ import org.springframework.stereotype.Component;
 public class MessageHelper {
 
 	@Autowired
-	private static MessageSource messageSource;
+	private MessageSource messageSource;
 
-	private static String defaultLocale;
+	private String defaultLocale;
 
-	public static String getMessage(String key) {
+	public String getMessage(String key) {
 		return getMessage(key, new Locale(defaultLocale));
 	}
 
-	public static String getMessage(String key, Locale locale) {
+	public String getMessage(String key, Locale locale) {
 		return messageSource.getMessage(key, null, "", locale);
 	}
 
-	public static String getMessage(ErrorCode errorCode) {
+	public String getMessage(ErrorCode errorCode) {
 		return getMessage(errorCode, new Locale(defaultLocale));
 	}
 
-	public static String getMessage(ErrorCode errorCode, Locale locale) {
+	public String getMessage(ErrorCode errorCode, Locale locale) {
 		return messageSource.getMessage(errorCode.name(), null, "", locale);
 	}
 
