@@ -121,7 +121,6 @@ public class GenericDao<T extends AbstractModel> {
 		try {
 			checkValidations(t);
 			t.setModificationDate(Calendar.getInstance());
-			t.setDeleted(false);
 			sessionFactory.getCurrentSession().update(t);
 			return true;
 		}

@@ -81,7 +81,9 @@ public class LoggingAspect {
 
 		StringBuffer buffer = new StringBuffer();
 		for (Object object : args) {
-			buffer.append(" " + object.getClass().getCanonicalName() + ":" + object.toString() + ", ");
+			if(object !=null){
+				buffer.append(" " + object.getClass().getCanonicalName() + ":" + object.toString() + ", ");				
+			}
 		}
 
 		return buffer.toString();
