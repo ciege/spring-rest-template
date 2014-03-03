@@ -37,11 +37,11 @@ public class LoginController extends AbstractController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		LoginStatus loginStatus = null;
 
-		if (auth != null && !isAnonymous(auth) && auth.isAuthenticated()) {
-			loginStatus = new LoginStatus(true, auth.getName());
+		if (auth != null) {
+			loginStatus = new LoginStatus(auth.isAuthenticated(), isAnonymous(auth), auth.getName());
 		}
 		else {
-			loginStatus = new LoginStatus(false, null);
+			loginStatus = new LoginStatus(false, false, null);
 		}
 		return new Builder(true).resultObject(loginStatus).build();
 	}
@@ -53,11 +53,11 @@ public class LoginController extends AbstractController {
 		try {
 			Authentication auth = authenticationManager.authenticate(token);
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			LoginStatus loginStatus = new LoginStatus(auth.isAuthenticated(), auth.getName());
+			LoginStatus loginStatus = new LoginStatus(auth.isAuthenticated(), isAnonymous(auth), auth.getName());
 			return new Builder(true).resultObject(loginStatus).build();
 		}
 		catch (BadCredentialsException e) {
-			LoginStatus loginStatus = new LoginStatus(false, null);
+			LoginStatus loginStatus = new LoginStatus(false, false, null);
 			return new Builder(false).errorCode(ErrorCode.INVALID_CREDENTIALS).resultObject(loginStatus).build();
 		}
 	}
@@ -69,10 +69,12 @@ public class LoginController extends AbstractController {
 	public class LoginStatus {
 
 		private final boolean loggedIn;
+		private final boolean isAnonymous;
 		private final String username;
 
-		public LoginStatus(boolean loggedIn, String username) {
+		public LoginStatus(boolean loggedIn, boolean isAnonymous, String username) {
 			this.loggedIn = loggedIn;
+			this.isAnonymous = isAnonymous;
 			this.username = username;
 		}
 
@@ -82,6 +84,10 @@ public class LoginController extends AbstractController {
 
 		public String getUsername() {
 			return username;
+		}
+
+		public boolean isAnonymous() {
+			return isAnonymous;
 		}
 	}
 }
