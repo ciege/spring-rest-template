@@ -1,8 +1,10 @@
 package org.dedeler.template.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.dedeler.template.annotation.Logged;
@@ -18,12 +20,17 @@ import org.dedeler.template.view.Result.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles requests for the application home page.
@@ -40,6 +47,28 @@ public class ShowcaseController extends AbstractController {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Value("${test.message}")
+	private String test;
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@ResponseBody
+	public Result home(Locale locale, Model model) {
+		logger.info("Welcome home! the client locale is " + locale.toString());
+		logger.info(test);
+
+		List<String> list = new ArrayList<String>();
+		list.add("sample");
+		list.add("result");
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		list.add("username is: " + authentication.getName());
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			list.add(auth.getAuthority());
+		}
+
+		return new Builder(true).resultObject(list).build();
+	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.GET)
 	@ResponseBody
@@ -56,18 +85,9 @@ public class ShowcaseController extends AbstractController {
 		return userService.save(user);
 	}
 
-	@RequestMapping(value = "/getUser/username/{username}", method = RequestMethod.GET)
-	@ResponseBody
-	public User findUserByEmail(@PathVariable("username") String username) {
-		return userService.findByUsername(username);
-	}
-
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/exception", method = RequestMethod.GET)
 	@ResponseBody
-	public Result home(Locale locale, Model model) {
+	public Result exception(Locale locale, Model model) {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 
 		Date date = new Date();
@@ -82,6 +102,41 @@ public class ShowcaseController extends AbstractController {
 		Result result = new Builder(e, locale).build();
 
 		return result;
+	}
+	
+
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	@ResponseBody
+	@PreAuthorize(value = "hasPermission(null,'PERMISSION_ADMIN_CONTROLLER')")
+	public List<String> admin(Locale locale, Model model) {
+		logger.info("Welcome home! the client locale is " + locale.toString());
+		logger.info(test);
+
+		List<String> list = new ArrayList<String>();
+		list.add("hi");
+		list.add("slut");
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		list.add(authentication.getName());
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			list.add(auth.getAuthority());
+		}
+
+		return list;
+
+	}
+	
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView page(Locale locale, Model model) {
+		logger.info("Welcome home! the client locale is " + locale.toString());
+		logger.info(test);
+
+		return new ModelAndView("home");
+
 	}
 
 }

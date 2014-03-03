@@ -2,8 +2,8 @@ package org.dedeler.template.exception;
 
 import java.util.Locale;
 
+import org.dedeler.template.context.ApplicationContextProvider;
 import org.dedeler.template.context.MessageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ApiException extends RuntimeException {
 
@@ -11,18 +11,17 @@ public class ApiException extends RuntimeException {
 	private ErrorCode errorCode;
 	private String message;
 	
-	@Autowired
 	private MessageHelper messageHelper;
 
 	public ApiException(ErrorCode errorCode) {
 		this.errorCode = errorCode;
-		this.message = messageHelper.getMessage(errorCode.toString(), Locale.ENGLISH);
+		this.message = getMessageHelper().getMessage(errorCode.toString(), Locale.ENGLISH);
 	}
 
 	public ApiException(ErrorCode errorCode, Throwable cause) {
 		super(cause);
 		this.errorCode = errorCode;
-		this.message = messageHelper.getMessage(errorCode.toString(), Locale.ENGLISH);
+		this.message = getMessageHelper().getMessage(errorCode.toString(), Locale.ENGLISH);
 	}
 
 	public ErrorCode getErrorCode() {
@@ -39,6 +38,17 @@ public class ApiException extends RuntimeException {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	/**
+	 * lazy initialization of messageHelper which can't be autowired because this is not a @component
+	 * @return
+	 */
+	private MessageHelper getMessageHelper(){
+		if(messageHelper == null){
+			messageHelper = ApplicationContextProvider.getContext().getBean(MessageHelper.class);
+		}
+		return messageHelper;
 	}
 
 }

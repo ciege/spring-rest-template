@@ -15,13 +15,12 @@ import org.dedeler.template.exception.ErrorCode;
  */
 public class Result {
 	
-	private static MessageHelper messageHelper;
-
 	public static class Builder {
 		private ErrorCode errorCode;
 		private final boolean success;
 		private String message;
 		private Object resultObject;
+		private static MessageHelper messageHelper;
 
 		public Builder(boolean success) {
 			this.success = success;
@@ -30,12 +29,7 @@ public class Result {
 		public Builder(ApiException e, Locale locale) {
 			this.success = false;
 			
-			//lazy initialization of messageHelper which can't be autowired because this is not a @component
-			if(messageHelper == null){
-				messageHelper = ApplicationContextProvider.getContext().getBean(MessageHelper.class);
-			}
-			
-			this.message = messageHelper.getMessage(e.getErrorCode(), locale);
+			this.message = getMessageHelper().getMessage(e.getErrorCode(), locale);
 			this.errorCode = e.getErrorCode();
 			this.resultObject = null;
 		}
@@ -66,6 +60,17 @@ public class Result {
 			}
 			return new Result(this);
 		}
+		
+		/**
+		 * lazy initialization of messageHelper which can't be autowired because this is not a @component
+		 * @return
+		 */
+		private MessageHelper getMessageHelper(){
+			if(messageHelper == null){
+				messageHelper = ApplicationContextProvider.getContext().getBean(MessageHelper.class);
+			}
+			return messageHelper;
+		}
 
 	}
 
@@ -77,7 +82,7 @@ public class Result {
 	}
 
 	/**
-	 * Only valid if success if false
+	 * Only valid if success is false
 	 */
 	private ErrorCode errorCode;
 	private boolean success;
