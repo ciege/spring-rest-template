@@ -20,3 +20,17 @@ Setup
 **Give JVM parameter for logs**
 
     -Dlog4j.logFolder="/home/destan/Desktop/logs"
+
+Useful stuff
+=====
+
+**Login credentials**
+    Default username/password pair is admin/admin
+
+**URLs to check out**
+    (assuming server is at localhost:8080)
+    http://localhost:8080/spring-template/showcase/page
+    http://localhost:8080/spring-template/showcase/
+    http://localhost:8080/spring-template/ (login)
+    http://localhost:8080/spring-template/showcase/exception
+    
