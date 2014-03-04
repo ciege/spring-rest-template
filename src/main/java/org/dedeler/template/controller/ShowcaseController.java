@@ -134,8 +134,11 @@ public class ShowcaseController extends AbstractController {
 	public ModelAndView page(Locale locale, Model model) {
 		logger.info("Welcome home! the client locale is " + locale.toString());
 		logger.info(test);
+		
 
-		return new ModelAndView("home");
+		ModelAndView result = new ModelAndView("home");
+		result.addObject("serverTime", new Date());
+		return result;
 
 	}
 
